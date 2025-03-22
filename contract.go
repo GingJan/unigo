@@ -1,4 +1,4 @@
-package core
+package unigo
 
 var (
 	CAN_PUT_FLAG    uint32 = 0

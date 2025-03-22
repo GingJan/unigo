@@ -1,7 +1,6 @@
-package core
+package unigo
 
 import (
-	"github.com/gingjan/unigo/util"
 	"os"
 	"strconv"
 )
@@ -51,22 +50,22 @@ func (u *IDGeneratorConfig) InitDefault() {
 
 // 从环境变量获取配置
 func configFromSystemEnv(uc *IDGeneratorConfig) (err error) {
-	if timestampBits := os.Getenv(TimestampBits); !util.IsBlank(timestampBits) {
+	if timestampBits := os.Getenv(TimestampBits); !IsBlank(timestampBits) {
 		uc.TimestampBits, err = strconv.Atoi(timestampBits)
 	}
-	if workerIdBits := os.Getenv(WorkerIdBits); !util.IsBlank(workerIdBits) {
+	if workerIdBits := os.Getenv(WorkerIdBits); !IsBlank(workerIdBits) {
 		uc.WorkerIdBits, err = strconv.Atoi(workerIdBits)
 	}
-	if sequenceBits := os.Getenv(SequenceBits); !util.IsBlank(sequenceBits) {
+	if sequenceBits := os.Getenv(SequenceBits); !IsBlank(sequenceBits) {
 		uc.SequenceBits, err = strconv.Atoi(sequenceBits)
 	}
-	if epochStr := os.Getenv(EpochStr); !util.IsBlank(epochStr) {
+	if epochStr := os.Getenv(EpochStr); !IsBlank(epochStr) {
 		uc.EpochStr = epochStr
 	}
-	if boostPower := os.Getenv(BoostPower); !util.IsBlank(boostPower) {
+	if boostPower := os.Getenv(BoostPower); !IsBlank(boostPower) {
 		uc.BoostPower, err = strconv.Atoi(boostPower)
 	}
-	if paddingFactor := os.Getenv(PaddingFactor); !util.IsBlank(paddingFactor) {
+	if paddingFactor := os.Getenv(PaddingFactor); !IsBlank(paddingFactor) {
 		uc.PaddingFactor, err = strconv.ParseUint(PaddingFactor, 10, 64)
 	}
 	return

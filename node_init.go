@@ -1,11 +1,10 @@
-package core
+package unigo
 
 import (
 	"fmt"
 	"math/rand"
 	"time"
 
-	"github.com/gingjan/unigo/util"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -53,7 +52,7 @@ func (w *MachineNodeDBConfig) connectMysql() error {
 
 // 添加记录，实例启动后，往数据库加一条记录，以记录本实例启动信息，并且获取一个机器（实例）id
 func (w *MachineNodeDBConfig) addRecord() (int64, error) {
-	hostname, environment := util.GetHostAndE()
+	hostname, environment := GetHostAndE()
 	rand.Seed(time.Now().UnixNano())
 	port := fmt.Sprintf("%v-%v", time.Now().UnixNano()/1e6, rand.Intn(100000))
 

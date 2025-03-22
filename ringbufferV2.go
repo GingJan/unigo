@@ -1,9 +1,8 @@
-package core
+package unigo
 
 import (
 	"errors"
 	"fmt"
-	"github.com/gingjan/unigo/util"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -113,7 +112,7 @@ func (r *RingBufferV2) Put(uid uint64) bool {
 // 从id池里取一个id
 func (r *RingBufferV2) Take() (uint64, error) {
 	currentCursor := atomic.LoadInt64(&r.cursor.cursor)
-	nextCursor := util.Uint64UpdateAndGet(&r.cursor.cursor, func(o int64) int64 {
+	nextCursor := Uint64UpdateAndGet(&r.cursor.cursor, func(o int64) int64 {
 		if o == atomic.LoadInt64(&r.tail.tail) {
 			return o
 		} else {

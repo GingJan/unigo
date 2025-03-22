@@ -1,8 +1,7 @@
-package core
+package unigo
 
 import (
 	"fmt"
-	"github.com/gingjan/unigo/util"
 	"sync"
 )
 
@@ -16,6 +15,12 @@ type IDGenerator struct {
 	boostPower   int
 	config       *IDGeneratorConfig
 	initOnce     sync.Once
+}
+
+func New(cfg *IDGeneratorConfig, w *MachineNodeDBConfig) *IDGenerator {
+	generator := &IDGenerator{}
+	generator.InitIDGlobalCfgAndWorkerDB(cfg, w, 2)
+	return generator
 }
 
 func (c *IDGenerator) InitDefaultWithWorkDB(w *MachineNodeDBConfig, ringBufferVersion int) {
@@ -38,7 +43,7 @@ func (c *IDGenerator) InitIDGlobalCfgAndWorkerDB(cfg *IDGeneratorConfig, w *Mach
 		if c.workId > c.bita.MaxWorkerId {
 			panic(fmt.Sprintf("Worker id %v exceeds the max %v", c.workId, c.bita.MaxWorkerId))
 		}
-		c.epochSeconds = util.DateToSecond(c.config.EpochStr)
+		c.epochSeconds = DateToSecond(c.config.EpochStr)
 		c.boostPower = c.config.BoostPower
 		bufferSize := (c.bita.MaxSequence + 1) << c.boostPower
 		if ringBufferVersion == 2 {
