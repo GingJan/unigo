@@ -35,21 +35,19 @@ const (
 	ENV_KEY_HOST = "JPAAS_HOST"
 	//ENV_KEY_PORT          = "JPAAS_HTTP_PORT"
 	//ENV_KEY_PORT_ORIGINAL = "JPAAS_HOST_PORT_8080"
+	ENV_PHYSICS   = 1
+	ENV_CONTAINER = 2
 )
 
-func GetHostAndE() (string, int) {
+func GetHostAndE() (string, int, error) {
 	DOCKER_HOST := os.Getenv(ENV_KEY_HOST)
-	//DOCKER_PORT := os.Getenv(ENV_KEY_PORT)
-	//if DOCKER_PORT == "" {
-	//	DOCKER_PORT = os.Getenv(ENV_KEY_PORT_ORIGINAL)
-	//}
 	if DOCKER_HOST != "" {
-		return DOCKER_HOST, 1
+		return DOCKER_HOST, ENV_CONTAINER, nil
 	} else {
 		hostname, err := os.Hostname()
 		if err != nil {
-			return hostname, 2
+			return "", -1, err
 		}
-		return "127.0.0.1", 3
+		return hostname, ENV_PHYSICS, nil
 	}
 }

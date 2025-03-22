@@ -16,6 +16,10 @@ const (
 )
 
 type IDGeneratorConfig struct {
+	Env      int
+	Hostname string
+	Port     int
+
 	TimestampBits int
 	WorkerIdBits  int
 	SequenceBits  int
@@ -27,7 +31,7 @@ type IDGeneratorConfig struct {
 
 // 初始化配置
 func (u *IDGeneratorConfig) Init(t int, w int, s int, e string) {
-	u.InitDefault()
+	u.SetDefault()
 	u.TimestampBits = t
 	u.WorkerIdBits = w
 	u.SequenceBits = s
@@ -35,11 +39,11 @@ func (u *IDGeneratorConfig) Init(t int, w int, s int, e string) {
 }
 
 // 初始化默认配置
-func (u *IDGeneratorConfig) InitDefault() {
+func (u *IDGeneratorConfig) SetDefault() {
 	u.TimestampBits = 29
 	u.WorkerIdBits = 20
 	u.SequenceBits = 15
-	u.EpochStr = "2020-08-20"
+	u.EpochStr = "2020-01-01"
 	u.BoostPower = 3
 	u.PaddingFactor = 70
 	err := configFromSystemEnv(u) //从环境变量获取配置
@@ -68,5 +72,6 @@ func configFromSystemEnv(uc *IDGeneratorConfig) (err error) {
 	if paddingFactor := os.Getenv(PaddingFactor); !IsBlank(paddingFactor) {
 		uc.PaddingFactor, err = strconv.ParseUint(PaddingFactor, 10, 64)
 	}
+	uc.Hostname, uc.Env, err = GetHostAndE()
 	return
 }
